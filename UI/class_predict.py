@@ -10,6 +10,19 @@ import pandas as pd
 from core.main_window import main_window
 from core.model.train_model import predict_model
 
+class Picture_POP_UP(QLabel):
+    def __init__(self, path: str, parent = None):
+        super(Picture_POP_UP, self).__init__(parent)
+        self.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.setFixedSize(720, 480)
+        self.ERR = True
+        try:
+            self.setPixmap(QPixmap(path))
+            self.ERR = False
+        except:
+            return
+        self.setMargin(40)
+
 class PredictWindow(QWidget):
     def __init__(self, parent = None):
         super(PredictWindow, self).__init__(parent)

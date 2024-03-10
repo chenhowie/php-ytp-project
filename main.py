@@ -30,10 +30,15 @@ class MainWindow(QWidget):
 
         self.titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+        self.PB_temp1 = QPushButton("picture dialog test")
+        self.PB_temp2 = QPushButton("string dialog test")
+
         lM = QVBoxLayout()
         lM.addWidget(self.titleLabel)
         lM.addWidget(self.trainButton)
         lM.addWidget(self.predictButton)
+        lM.addWidget(self.PB_temp1)
+        lM.addWidget(self.PB_temp2)
         lM.addSpacing(1)
         self.setLayout(lM)
         self.setContentsMargins(100, 100, 100, 100)
@@ -41,6 +46,8 @@ class MainWindow(QWidget):
     def connectFunctions(self):
         self.trainButton  .clicked.connect(self.trainButton_clicked)
         self.predictButton.clicked.connect(self.predictButton_clicked)
+        self.PB_temp1.clicked.connect(self.PB_temp1_clicked)
+        self.PB_temp2.clicked.connect(self.PB_temp2_clicked)
     
     def trainButton_clicked(self):
         self.model_window = ModelWindow()
@@ -49,6 +56,14 @@ class MainWindow(QWidget):
     def predictButton_clicked(self):
         self.predict_window = PredictWindow()
         self.predict_window.show()
+    
+    def PB_temp1_clicked(self):
+        self.picture_window = Picture_POP_UP("data/assets/nene.png")
+        self.picture_window.show()
+
+    def PB_temp2_clicked(self):
+        self.picture_window2 = Picture_POP_UP("data/assets/NGGYU.gif")
+        self.picture_window2.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
