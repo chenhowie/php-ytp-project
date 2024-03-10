@@ -15,19 +15,19 @@ if __name__ == '__main__':
     # print(func2.cluster(path, 'f2', 3))
 
     # 建立模型
-    print(func3.train_model(training_features="core/demo/temp_feature.csv", training_target="core/demo/temp_target.csv", model_name="test", model="Decision_Tree"))
+    print(func3.train_model(training_features="core/demo/predict.csv", training_target="core/demo/predict_ans.csv", model_name="test", model="Decision_Tree"))
 
     # 模型列表
     # print(f"model list : {func1.list_model()}")
 
     # # 使用模型預測新資料
-    print(func3.predict_model("core/demo/temp_feature.csv", "test"))
+    print(func3.predict_model("core/demo/predict.csv", "test"))
 
     # # 使用 permutation importance 分析模型 (回傳.csv檔路徑)
-    print(func4.perimp("test", "core/demo/temp_feature.csv", "core/demo/temp_target.csv"))
+    print(func4.perimp("test", "core/demo/predict.csv", "core/demo/predict_ans.csv"))
 
     # # Partial Dependence display 1D
-    print(func4.pdpd1d("test", "core/demo/temp_feature.csv", "core/demo/temp_target.csv"))
+    print(func4.pdpd1d("test", "core/demo/predict.csv", "core/demo/predict_ans.csv"))
 
     # # Partial Dependence display 2D
-    print(func4.pdpd2d("test", "core/demo/temp_feature.csv", "core/demo/temp_target.csv", "F1", "F2"))
+    print(func4.pdpd2d("test", "core/demo/predict.csv", "core/demo/predict_ans.csv", "F1", "F2"))
