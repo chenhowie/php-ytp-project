@@ -1,8 +1,0 @@
-{
-    "python_version" : "3.10.11",
-    "version" : "2024/3/2",
-    "model_list" : [
-        "Decision_Tree",
-        "Random_Forest"
-    ]
-}
