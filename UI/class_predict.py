@@ -88,7 +88,8 @@ class PredictWindow_1(QWidget):
         tempDataName = "core/temp_data/temp_file/predict.csv"
         try:
             string_process(pathData, featureBitset, tempDataName)
-            if pd.read_csv(tempDataName).shape[0] <= 100:
+            df = pd.read_csv(tempDataName)
+            if df.count() / df.shape[0] < 0.95:
                 tempDataName = naavg(tempDataName)
             else:
                 tempDataName = nadelete(tempDataName)
