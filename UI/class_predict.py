@@ -7,8 +7,9 @@ from PyQt6.QtCore        import *
 from UI.useful_functions import *
 
 import pandas as pd
-from core.main_window       import main_window
-from core.model.train_model import predict_model
+from core.main_window                                      import main_window
+from core.model.train_model                                import predict_model
+from core.data_process.feature_engineering.feature_extract import naavg, nadelete
 
 class PredictWindow_1(QWidget):
     def __init__(self, parent = None):
@@ -80,15 +81,18 @@ class PredictWindow_1(QWidget):
 
     def PREDICT(self, pathData: str, modelName: str):
         modelInfo = JSON_READ(f"data/model_config/{modelName}.json")
-        df = pd.read_csv(pathData)
-        featureKeys = df.columns.copy()
         featureSelected = modelInfo["attrFeature"]
-        featureBitset, succeed = get_bitset(featureKeys, featureSelected)
+        _, featureBitset, succeed = get_all(pathData, featureSelected)
         if not succeed:
             return False
         tempDataName = "core/temp_data/temp_file/predict.csv"
         try:
             string_process(pathData, featureBitset, tempDataName)
+            if pd.read_csv(tempDataName).shape[0] <= 100:
+                tempDataName = naavg(tempDataName)
+            else:
+                tempDataName = nadelete(tempDataName)
+            print(tempDataName)
             predict_model(tempDataName, modelName)
         except:
             return False

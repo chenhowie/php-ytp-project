@@ -4,10 +4,7 @@
     "modelName": "house",
     "modelType": "Decision_Tree",
     "attrFeature": [
-        "OverallQual",
-        "OverallCond",
-        "YearBuilt",
-        "MoSold",
+        "GarageArea",
         "YrSold"
     ],
     "attrTarget": [
