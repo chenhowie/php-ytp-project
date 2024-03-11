@@ -32,3 +32,18 @@ def cluster(path, col, group):
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     df.to_csv(os.path.join(os.path.abspath(os.path.dirname(path)), "temp.csv"))
     return os.path.join(os.path.abspath(os.path.dirname(path)), "temp.csv")
+
+def naavg(path):
+    df = pd.read_csv(path)
+    avg = df.mean()
+    df.fillna(avg, inplace=True)
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df.to_csv(os.path.join(os.path.abspath(os.path.dirname(path)), "temp.csv"))
+    return os.path.join(os.path.abspath(os.path.dirname(path)), "temp.csv")
+
+def nadelete(path):
+    df = pd.read_csv(path)
+    df = df.dropna()
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df.to_csv(os.path.join(os.path.abspath(os.path.dirname(path)), "temp.csv"))
+    return os.path.join(os.path.abspath(os.path.dirname(path)), "temp.csv")

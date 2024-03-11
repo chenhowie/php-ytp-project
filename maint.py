@@ -34,3 +34,9 @@ if __name__ == '__main__':
 
     # random forest regressor
     print(func3.train_model(training_features="core/demo/training.csv", training_target="core/demo/training_ans.csv", model_name="rf", model="Randon_Forest"))
+
+    # delete na row
+    print(func2.nadelete("core/demo/training.csv"))
+
+    # replace na with avg value
+    print(func2.naavg("core/demo/training.csv"))
