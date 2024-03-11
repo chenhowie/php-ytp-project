@@ -31,3 +31,6 @@ if __name__ == '__main__':
 
     # # Partial Dependence display 2D
     print(func4.pdpd2d("test", "core/demo/training.csv", "core/demo/training_ans.csv", "F1", "F2"))
+
+    # random forest regressor
+    print(func3.train_model(training_features="core/demo/training.csv", training_target="core/demo/training_ans.csv", model_name="rf", model="Randon_Forest"))
