@@ -89,11 +89,10 @@ class PredictWindow_1(QWidget):
         try:
             string_process(pathData, featureBitset, tempDataName)
             df = pd.read_csv(tempDataName)
-            if df.count() / df.shape[0] < 0.95:
+            if PERCENTAGE(df) < 0.95:
                 tempDataName = naavg(tempDataName)
             else:
                 tempDataName = nadelete(tempDataName)
-            print(tempDataName)
             predict_model(tempDataName, modelName)
         except:
             return False

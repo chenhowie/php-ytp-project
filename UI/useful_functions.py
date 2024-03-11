@@ -45,6 +45,14 @@ def get_all(path: str, selected: list):
         return [], [], False
     return keys, bitset, True
 
+def PERCENTAGE(df: pd.DataFrame):
+    fd = df.count(axis = "columns")
+    anticipate = len(df.columns)
+    C = 0
+    for i in fd:
+        if i != anticipate:
+            C += 1
+    return C / df.shape[0]
 
 def JSON_WRITE(M: dict, path: str):
     with open(path, mode = "w", encoding = "utf-8") as file:
