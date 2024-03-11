@@ -19,6 +19,11 @@ class AnalyzeWindow(QWidget):
         self.path1D = pdpd1d(self.modelInfo["modelName"], 
                              self.modelInfo["pathFeature"], 
                              self.modelInfo["pathTarget"])
+        self.perimpPath = perimp(self.modelInfo["modelName"], 
+                                 self.modelInfo["pathFeature"], 
+                                 self.modelInfo["pathTarget"])
+        # self.LB_graph1.setPixmap(QPixmap(self.perimpPath).scaled(480, 320))
+        self.LOAD_CSV()
     
     # ------------ INIT UI ------------
 
@@ -75,19 +80,30 @@ class AnalyzeWindow(QWidget):
         LY.addLayout(self.funcInitUI_LEFT_DOWN())
         return LY
 
-    def funcInitUI_RIGHT_UP(self):
+    def funcInitUI_W1(self):
+        self.TB = QTableWidget()
+        LY = QHBoxLayout()
+        LY.addWidget(self.TB)
+        return LY
+
+    def funcInitUI_W2(self):
         self.LB_graph = QLabel()
         self.LB_graph.setFixedSize(480, 320)
-        GB = QGroupBox("graph preview")
         LY = QHBoxLayout()
         LY.addWidget(self.LB_graph)
-        GB.setLayout(LY)
-        return GB
+        return LY
 
     def funcInitUI_RIGHT(self):
-        LY = QVBoxLayout()
+        self.TW = QTabWidget()
+        W1 = QWidget()
+        W2 = QWidget()
+        W1.setLayout(self.funcInitUI_W1())
+        W2.setLayout(self.funcInitUI_W2())
+        self.TW.addTab(W1, "overall")
+        self.TW.addTab(W2, "subject")
         self.PB_save = QPushButton("Save")
-        LY.addWidget(self.funcInitUI_RIGHT_UP())
+        LY = QVBoxLayout()
+        LY.addWidget(self.TW)
         LY.addWidget(self.PB_save)
         return LY
 
@@ -101,6 +117,18 @@ class AnalyzeWindow(QWidget):
         LY.addWidget(self.SB)
         self.setLayout(LY)
         self.CHB_2D_statechanged()
+
+    def LOAD_CSV(self):
+        df = pd.read_csv(self.perimpPath)
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+        self.TB.setRowCount(len(df.index))
+        self.TB.setColumnCount(len(df.columns))
+        self.TB.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        for i in range(len(df.columns)):
+            self.TB.setColumnWidth(i, self.TB.size().width() // (len(df.columns) + 1))
+            self.TB.setHorizontalHeaderItem(i, QTableWidgetItem(str(df.columns[i])))
+            for j in range(len(df.index)):
+                self.TB.setItem(j, i, QTableWidgetItem(str(df.at[df.index[j], df.columns[i]])))
     
     # --------- INIT FUNCTION ---------
 
@@ -123,13 +151,13 @@ class AnalyzeWindow(QWidget):
         self.CB_2D.setEnabled(st)
 
     def PB_load_clicked(self):
-        # print("PRING")
         if self.CHB_2D.checkState() == Qt.CheckState.Unchecked:
             s1 = self.CB_1D.currentText()
             if s1 == "...":
                 self.POP_MESSAGE("error: no features")
                 return
             self.UPDATE(f"{self.path1D}/{s1}.png")
+            self.TW.setCurrentIndex(1)
         else:
             s1 = self.CB_1D.currentText()
             s2 = self.CB_2D.currentText()
@@ -143,10 +171,15 @@ class AnalyzeWindow(QWidget):
                                   self.modelInfo['pathFeature'], 
                                   self.modelInfo['pathTarget'], 
                                   s1, s2)}/{s1}-{s2}.png""")
+            self.TW.setCurrentIndex(1)
 
     def PB_save_clicked(self):
-        fileName, _ = QFileDialog.getSaveFileName(self, "save as", ".", "PNG file (*.png)")
+        fileFilter = "PNG file (*.png)" if self.TW.currentIndex() == 1 else "CSV file (*.csv)"
+        fileName, _ = QFileDialog.getSaveFileName(self, "save as", ".", fileFilter)
         if fileName == "":
             return
-        shutil.copy(self.graphPath, fileName)
+        if self.TW.currentIndex() == 0:
+            shutil.copy(self.perimpPath, fileName)
+        else:
+            shutil.copy(self.graphPath, fileName)
 
