@@ -19,7 +19,7 @@ int main(int argc,char* argv[]){
 	srand(time(NULL));
 	for(int i = 0;i<5;i++)f1<<(i?",":"")<<"F"<<i;f1<<endl;
 	f2<<"A0"<<endl;
-	for(int i = 0;i<100000;i++){
+	for(int i = 0;i<5000;i++){
 		int arr[5];
 		float s = 0;
 		for(int j = 0;j<5;j++){

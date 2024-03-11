@@ -1,0 +1,12 @@
+{
+    "pathFeature": "D:/php-ytp-project/core/demo/house_train.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/house_train.csv",
+    "modelName": "test",
+    "modelType": "Random_Forest",
+    "attrFeature": [
+        "YrSold"
+    ],
+    "attrTarget": [
+        "SalePrice"
+    ]
+}

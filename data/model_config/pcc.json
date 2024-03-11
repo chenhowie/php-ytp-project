@@ -1,0 +1,16 @@
+{
+    "pathFeature": "D:/php-ytp-project/core/demo/training.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/training_ans.csv",
+    "modelName": "pcc",
+    "modelType": "Random_Forest",
+    "attrFeature": [
+        "F0",
+        "F1",
+        "F2",
+        "F3",
+        "F4"
+    ],
+    "attrTarget": [
+        "A0"
+    ]
+}
