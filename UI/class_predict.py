@@ -1,13 +1,13 @@
 import os
-from PyQt6 import QtGui, QtCore
-from PyQt6.QtWidgets import *
-from PyQt6.QtGui import *
-from PyQt6.QtCore import *
+import shutil
+from PyQt6               import QtGui, QtCore
+from PyQt6.QtWidgets     import *
+from PyQt6.QtGui         import *
+from PyQt6.QtCore        import *
 from UI.useful_functions import *
 
-import json
 import pandas as pd
-from core.main_window import main_window
+from core.main_window       import main_window
 from core.model.train_model import predict_model
 
 class Picture_POP_UP(QLabel):
@@ -23,9 +23,9 @@ class Picture_POP_UP(QLabel):
             return
         self.setMargin(40)
 
-class PredictWindow(QWidget):
+class PredictWindow_1(QWidget):
     def __init__(self, parent = None):
-        super(PredictWindow, self).__init__(parent)
+        super(PredictWindow_1, self).__init__(parent)
         self.funcInitUI()
         self.connectFunctions()
         self.setWindowTitle("Predicting")
@@ -92,9 +92,10 @@ class PredictWindow(QWidget):
         return False
 
     def PREDICT(self, pathData: str, modelName: str):
-        attrFeature = []
-        with open(f"data/model_config/{modelName}.json", mode = "r", encoding = "utf-8") as file:
-            attrFeature = json.load(file)["attrFeature"]
+        # with open(f"data/model_config/{modelName}.json", mode = "r", encoding = "utf-8") as file:
+        #     attrFeature = json.load(file)["attrFeature"]
+        modelInfo = JSON_READ(f"data/model_config/{modelName}.json")
+        attrFeature = modelInfo["attrFeature"]
         tempDataName = "temp_data.csv"
         try:
             tempDataName = string_process(pathData, attrFeature, tempDataName)
@@ -115,12 +116,18 @@ class PredictWindow(QWidget):
         savePath, _ = QFileDialog.getSaveFileName(self, "Save as", ".\\", "CSV files (*.csv)")
         if savePath == "":
             return
-        df = pd.read_csv("data/prediction/temp.csv")
-        df.to_csv(savePath)
+        shutil.copy("data/prdiction/temp.csv", savePath)
         self.POP_MESSAGE("Succeeded.")
-            
-            
 
+            
+class PredictWindow(QStackedWidget):
+    def __init__(self, parent = None):
+        super(PredictWindow, self).__init__(parent)
+        page1 = PredictWindow_1(self)
+        self.setWindowTitle("Predicting")
+        self.setWindowIcon(QIcon("data/assets/PCC.png"))
+        self.addWidget(page1)
+        self.setCurrentIndex(0)
 
 
 

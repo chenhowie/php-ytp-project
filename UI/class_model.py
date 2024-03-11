@@ -1,12 +1,11 @@
 import os
-from PyQt6 import QtGui, QtCore
+from PyQt6           import QtGui, QtCore
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import *
-from PyQt6.QtCore import *
+from PyQt6.QtGui     import *
+from PyQt6.QtCore    import *
 
-import json
-from UI.useful_functions import *
-from core.main_window import main_window
+from UI.useful_functions    import *
+from core.main_window       import main_window
 from core.model.train_model import train_model
 
 class ModelWindow_1(QWidget):
@@ -205,9 +204,12 @@ class ModelWindow_1(QWidget):
         tempTargetName =  string_process(pathTarget , attrTarget , tempTargetName)
         msg = train_model(tempFeatureName, tempTargetName, modelName, modelType)
         QMessageBox.about(self, "Train Finished", msg)
-        with open(f"data/model_config/{modelName}.json", mode = "w", encoding = "utf-8") as file:
-            json.dump({"attrFeature": attrFeature}, file, indent = 4)
-
+        JSON_WRITE({"pathFeature": pathFeature, 
+                    "pathTarget": pathTarget, 
+                    "modelName": modelName, 
+                    "modelType": modelType, 
+                    "attrFeature": attrFeature, 
+                    "attrTarget": attrTarget}, f"data/model_config/{modelName}.json")
 
     def PB_start_clicked(self):
         pathFeature = self.realPathFeature
@@ -222,14 +224,26 @@ class ModelWindow_1(QWidget):
             return
         self.TRAIN_MODEL(pathFeature, pathTarget, modelName, modelType, attrFeature, attrTarget)
 
+
+class ModelWindow_2(QWidget):
+    def __init__(self, mn: str, parent = None):
+        super(ModelWindow_2, self).__init__(parent)
+
+
 class ModelWindow(QStackedWidget):
     def __init__(self, parent = None):
         super(ModelWindow, self).__init__(parent)
-        page1 = ModelWindow_1(self)
+        self.page1 = ModelWindow_1(self)
         self.setWindowTitle("Training")
         self.setWindowIcon(QIcon("data/assets/PCC.png"))
-        self.addWidget(page1)
+        # self.setFixedSize(960, 720)
+        self.addWidget(self.page1)
         self.setCurrentIndex(0)
-
-
+    
+    # def PAGE_FORWARD(self, mn: str):
+    #     self.page2 = ModelWindow_2(self, mn)
+    #     self.setCurrentIndex(1)
+    
+    # def PAGE_BACK(self):
+    #     self.setCurrentIndex(0)
 

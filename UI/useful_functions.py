@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import json
 
 def string_process(path: str, l: list, fileName: str):
     sl = []
@@ -11,3 +12,17 @@ def string_process(path: str, l: list, fileName: str):
     longFileName = os.path.join(os.path.abspath(os.path.dirname(path)), fileName)
     df.to_csv(longFileName)
     return longFileName
+
+def JSON_WRITE(M: dict, path: str):
+    with open(path, mode = "w", encoding = "utf-8") as file:
+        json.dump(M, file, indent = 4)
+
+def JSON_READ(path: str):
+    M = dict()
+    try:
+        with open(path, mode = "r", encoding = "utf-8") as file:
+            M = json.load(file)
+    except: 
+        pass
+    return M
+
