@@ -9,9 +9,7 @@ def string_process(path: str, l: list, fileName: str):
         if l[i] == 0:
             sl.append(df.columns[i])
     df = df.drop(columns=sl)
-    longFileName = os.path.join(os.path.abspath(os.path.dirname(path)), fileName)
-    df.to_csv(longFileName)
-    return longFileName
+    df.to_csv(fileName)
 
 def JSON_WRITE(M: dict, path: str):
     with open(path, mode = "w", encoding = "utf-8") as file:

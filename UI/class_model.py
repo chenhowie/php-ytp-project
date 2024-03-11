@@ -167,7 +167,7 @@ class ModelWindow_1(QWidget):
 
     # ---- THE MOST IMPORTANT PART ----
 
-    def fxxk_up(self, pf: str, pt: str, mn: str, mt: str, af: list, at: list):
+    def fxxk(self, pf: str, pt: str, mn: str, mt: str, af: list, at: list):
         try:
             br = open(pf)
             br.close()
@@ -198,10 +198,10 @@ class ModelWindow_1(QWidget):
                                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No) == QMessageBox.StandardButton.No:
                 QMessageBox.about(self, "Cancel", "canceled        ")
                 return
-        tempFeatureName = "temp_feature.csv"
-        tempTargetName  = "temp_target.csv"
-        tempFeatureName = string_process(pathFeature, attrFeature, tempFeatureName)
-        tempTargetName =  string_process(pathTarget , attrTarget , tempTargetName)
+        tempFeatureName = "core/temp_data/temp_file/feature.csv"
+        tempTargetName  = "core/temp_data/temp_file/target.csv"
+        string_process(pathFeature, attrFeature, tempFeatureName)
+        string_process(pathTarget , attrTarget , tempTargetName)
         msg = train_model(tempFeatureName, tempTargetName, modelName, modelType)
         QMessageBox.about(self, "Train Finished", msg)
         JSON_WRITE({"pathFeature": pathFeature, 
@@ -218,7 +218,7 @@ class ModelWindow_1(QWidget):
         modelType   = self.CB_model    .currentText()
         attrFeature = self.LW_CHECKSTATE(self.LW_feature)
         attrTarget  = self.LW_CHECKSTATE(self.LW_target)
-        err = self.fxxk_up(pathFeature, pathTarget, modelName, modelType, attrFeature, attrTarget)
+        err = self.fxxk(pathFeature, pathTarget, modelName, modelType, attrFeature, attrTarget)
         if err:
             self.POP_MESSAGE("error")
             return

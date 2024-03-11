@@ -16,12 +16,16 @@ class AnalyzeWindow(QWidget):
         self.funcInitUI()
         self.connectFunctions()
         self.setWindowTitle("Analyzing")
+        tempFeaturePath = "core/temp_data/temp_file/feature.csv"
+        tempTargetPath  = "core/temp_data/temp_file/target.csv"
+        string_process(self.modelInfo["pathFeature"], self.modelInfo["attrFeature"], tempFeaturePath)
+        string_process(self.modelInfo["pathTarget"] , self.modelInfo["attrTarget"] , tempTargetPath)
         self.path1D = pdpd1d(self.modelInfo["modelName"], 
-                             self.modelInfo["pathFeature"], 
-                             self.modelInfo["pathTarget"])
+                             tempFeaturePath, 
+                             tempTargetPath)
         self.perimpPath = perimp(self.modelInfo["modelName"], 
-                                 self.modelInfo["pathFeature"], 
-                                 self.modelInfo["pathTarget"])
+                                 tempFeaturePath, 
+                                 tempTargetPath)
         # self.LB_graph1.setPixmap(QPixmap(self.perimpPath).scaled(480, 320))
         self.LOAD_CSV()
     
