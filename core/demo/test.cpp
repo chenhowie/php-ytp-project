@@ -21,8 +21,12 @@ int main(int argc,char* argv[]){
 	f2<<"A0"<<endl;
 	for(int i = 0;i<100000;i++){
 		int arr[5];
-		int s = 0;
-		for(int j = 0;j<5;j++)s += (arr[j] = rand()%10)*pow(10,j),f1<<(j?",":"")<<arr[j];
+		float s = 0;
+		for(int j = 0;j<5;j++){
+			auto k = rand()%100000*0.0001;
+			s += k*pow(10,j);
+			f1<<(j?",":"")<<k;
+		}
 		f1<<endl;
 		f2<<(argc>2?1.0*s+rand()%10*0.1:1.0*s)<<endl;
 	}

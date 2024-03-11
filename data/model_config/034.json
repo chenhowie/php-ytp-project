@@ -1,0 +1,16 @@
+{
+    "pathFeature": "D:/php-ytp-project/core/demo/training.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/training_ans.csv",
+    "modelName": "034",
+    "modelType": "Decision_Tree",
+    "attrFeature": [
+        1,
+        0,
+        0,
+        1,
+        1
+    ],
+    "attrTarget": [
+        1
+    ]
+}

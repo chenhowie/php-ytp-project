@@ -1,6 +1,6 @@
 {
-    "pathFeature": "C:/Users/ianne/Ian/APPs/github desktop/main/projects/php-ytp-project/core/demo/training.csv",
-    "pathTarget": "C:/Users/ianne/Ian/APPs/github desktop/main/projects/php-ytp-project/core/demo/training_ans.csv",
+    "pathFeature": "D:/php-ytp-project/core/demo/training.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/training_ans.csv",
     "modelName": "pcc",
     "modelType": "Decision_Tree",
     "attrFeature": [
