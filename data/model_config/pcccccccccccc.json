@@ -1,0 +1,13 @@
+{
+    "pathFeature": "E:/programming/python/github/php-ytp-project/core/demo/house_train.csv",
+    "pathTarget": "E:/programming/python/github/php-ytp-project/core/demo/house_train.csv",
+    "modelName": "pcccccccccccc",
+    "modelType": "Decision_Tree",
+    "attrFeature": [
+        "MoSold",
+        "YrSold"
+    ],
+    "attrTarget": [
+        "SalePrice"
+    ]
+}

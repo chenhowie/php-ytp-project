@@ -1,0 +1,22 @@
+{
+    "pathFeature": "E:/programming/python/github/php-ytp-project/core/demo/house_train.csv",
+    "pathTarget": "E:/programming/python/github/php-ytp-project/core/demo/house_train.csv",
+    "modelName": "abcd",
+    "modelType": "Decision_Tree",
+    "attrFeature": [
+        "LotArea",
+        "YearBuilt",
+        "YearRemodAdd",
+        "BsmtFinSF1",
+        "BsmtFinSF2",
+        "TotalBsmtSF",
+        "1stFlrSF",
+        "2ndFlrSF",
+        "TotRmsAbvGrd",
+        "MoSold",
+        "YrSold"
+    ],
+    "attrTarget": [
+        "SalePrice"
+    ]
+}
