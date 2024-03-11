@@ -81,9 +81,9 @@ class PredictWindow_1(QWidget):
     def PREDICT(self, pathData: str, modelName: str):
         modelInfo = JSON_READ(f"data/model_config/{modelName}.json")
         attrFeature = modelInfo["attrFeature"]
-        tempDataName = "temp_data.csv"
+        tempDataName = "core/temp_data/temp_file/predict.csv"
         try:
-            tempDataName = string_process(pathData, attrFeature, tempDataName)
+            string_process(pathData, attrFeature, tempDataName)
             predict_model(tempDataName, modelName)
         except:
             return False
@@ -97,6 +97,7 @@ class PredictWindow_1(QWidget):
             self.POP_MESSAGE("error")
             return
         if not self.PREDICT(pathData, modelName):
+            self.POP_MESSAGE("error")
             return
         savePath, _ = QFileDialog.getSaveFileName(self, "Save as", ".\\", "CSV files (*.csv)")
         if savePath == "":
