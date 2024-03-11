@@ -16,28 +16,24 @@ class AnalyzeWindow(QWidget):
         self.funcInitUI()
         self.connectFunctions()
         self.setWindowTitle("Analyzing")
+        fk, fb, _ = get_all(self.modelInfo["pathFeature"], self.modelInfo["attrFeature"])
+        tk, tb, _ = get_all(self.modelInfo["pathTarget"] , self.modelInfo["attrTarget"])
         tempFeaturePath = "core/temp_data/temp_file/feature.csv"
         tempTargetPath  = "core/temp_data/temp_file/target.csv"
-        string_process(self.modelInfo["pathFeature"], self.modelInfo["attrFeature"], tempFeaturePath)
-        string_process(self.modelInfo["pathTarget"] , self.modelInfo["attrTarget"] , tempTargetPath)
+        string_process(self.modelInfo["pathFeature"], fb, tempFeaturePath)
+        string_process(self.modelInfo["pathTarget"] , tb, tempTargetPath)
         self.path1D = pdpd1d(self.modelInfo["modelName"], 
                              tempFeaturePath, 
                              tempTargetPath)
         self.perimpPath = perimp(self.modelInfo["modelName"], 
                                  tempFeaturePath, 
                                  tempTargetPath)
-        # self.LB_graph1.setPixmap(QPixmap(self.perimpPath).scaled(480, 320))
         self.LOAD_CSV()
     
     # ------------ INIT UI ------------
 
     def GET_COMBOBOX(self):
-        df = pd.read_csv(self.modelInfo["pathFeature"])
-        af = self.modelInfo["attrFeature"]
-        feature_tag = ["..."]
-        for i in range(len(af)):
-            if af[i] == 1:
-                feature_tag.append(df.columns[i])
+        feature_tag = ["..."] + self.modelInfo["attrFeature"]
         CB = QComboBox()
         CB.addItems(feature_tag)
         return CB
@@ -171,10 +167,14 @@ class AnalyzeWindow(QWidget):
             if s1 == s2:
                 self.POP_MESSAGE("error: same feature")
                 return
-            self.UPDATE(f"""{pdpd2d(self.modelInfo['modelName'], 
-                                  self.modelInfo['pathFeature'], 
-                                  self.modelInfo['pathTarget'], 
-                                  s1, s2)}/{s1}-{s2}.png""")
+            try:
+                self.UPDATE(f"""{pdpd2d(self.modelInfo['modelName'], 
+                                    self.modelInfo['pathFeature'], 
+                                    self.modelInfo['pathTarget'], 
+                                    s1, s2)}/{s1}-{s2}.png""")
+            except:
+                self.POP_MESSAGE("error: due to Howie's \"pdpd2d\" function")
+                return
             self.TW.setCurrentIndex(1)
 
     def PB_save_clicked(self):

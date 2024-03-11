@@ -167,7 +167,7 @@ class ModelWindow_1(QWidget):
 
     # ---- THE MOST IMPORTANT PART ----
 
-    def fxxk(self, pf: str, pt: str, mn: str, mt: str, af: list, at: list):
+    def fxxk(self, pf: str, pt: str, mn: str, mt: str, fk: list, fb: list, tk: list, tb: list):
         try:
             br = open(pf)
             br.close()
@@ -179,55 +179,60 @@ class ModelWindow_1(QWidget):
             return True
         if mt == "...":
             return True
-        if not (1 in af):
+        s, _ = get_selected(fk, fb)
+        if len(s) == 0:
             return True
-        if not (1 in at):
+        s, _ = get_selected(tk, tb)
+        if len(s) == 0:
             return True
         return False
 
     def LW_CHECKSTATE(self, LW: QListWidget):
-        l = []
+        keys   = []
+        bitset = []
         for i in range(LW.count()):
-            l.append(1 if LW.item(i).checkState() == Qt.CheckState.Checked else 0)
-        return l
+            keys  .append(LW.item(i).text())
+            bitset.append(1 if LW.item(i).checkState() == Qt.CheckState.Checked else 0)
+        return keys, bitset
 
-    def TRAIN_MODEL(self, pathFeature: str, pathTarget: str, modelName: str, modelType: str, attrFeature: list, attrTarget: list):
-        if modelName in main_window.list_model():
+    def TRAIN_MODEL(self, pf: str, pt: str, mn: str, mt: str, fk: list, fb: list, tk: list, tb: list):
+        if mn in main_window.list_model():
             if QMessageBox.warning(self, "Replace", 
-                                   f"You already have a model with same name: {modelName}.\nDo you want to replace it?", 
+                                   f"You already have a model with same name: {mn}.\nDo you want to replace it?", 
                                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No) == QMessageBox.StandardButton.No:
                 QMessageBox.about(self, "Cancel", "canceled        ")
                 return
+        fs, _ = get_selected(fk, fb)
+        ts, _ = get_selected(tk, tb)
         tempFeatureName = "core/temp_data/temp_file/feature.csv"
         tempTargetName  = "core/temp_data/temp_file/target.csv"
-        string_process(pathFeature, attrFeature, tempFeatureName)
-        string_process(pathTarget , attrTarget , tempTargetName)
-        msg = train_model(tempFeatureName, tempTargetName, modelName, modelType)
+        string_process(pf, fb, tempFeatureName)
+        string_process(pt, tb, tempTargetName)
+        msg = "error occurred"
+        try:
+            msg = train_model(tempFeatureName, tempTargetName, mn, mt)
+            JSON_WRITE({"pathFeature": pf, 
+                        "pathTarget": pt, 
+                        "modelName": mn, 
+                        "modelType": mt, 
+                        "attrFeature": fs, 
+                        "attrTarget": ts}, f"data/model_config/{mn}.json")
+        except:
+            pass
         QMessageBox.about(self, "Train Finished", msg)
-        JSON_WRITE({"pathFeature": pathFeature, 
-                    "pathTarget": pathTarget, 
-                    "modelName": modelName, 
-                    "modelType": modelType, 
-                    "attrFeature": attrFeature, 
-                    "attrTarget": attrTarget}, f"data/model_config/{modelName}.json")
 
     def PB_start_clicked(self):
         pathFeature = self.realPathFeature
         pathTarget  = self.realPathTarget
         modelName   = self.LE_modelName.text()
         modelType   = self.CB_model    .currentText()
-        attrFeature = self.LW_CHECKSTATE(self.LW_feature)
-        attrTarget  = self.LW_CHECKSTATE(self.LW_target)
-        err = self.fxxk(pathFeature, pathTarget, modelName, modelType, attrFeature, attrTarget)
+        featureKeys, featureBitset = self.LW_CHECKSTATE(self.LW_feature)
+        targetKeys , targetBitset  = self.LW_CHECKSTATE(self.LW_target)
+        err = self.fxxk(pathFeature, pathTarget, modelName, modelType, featureKeys, featureBitset, targetKeys, targetBitset)
         if err:
             self.POP_MESSAGE("error")
             return
-        self.TRAIN_MODEL(pathFeature, pathTarget, modelName, modelType, attrFeature, attrTarget)
-
-
-class ModelWindow_2(QWidget):
-    def __init__(self, mn: str, parent = None):
-        super(ModelWindow_2, self).__init__(parent)
+        self.TRAIN_MODEL(pathFeature, pathTarget, modelName, modelType, featureKeys, featureBitset, targetKeys, targetBitset)
 
 
 class ModelWindow(QStackedWidget):
@@ -236,14 +241,5 @@ class ModelWindow(QStackedWidget):
         self.page1 = ModelWindow_1(self)
         self.setWindowTitle("Training")
         self.setWindowIcon(QIcon("data/assets/PCC.png"))
-        # self.setFixedSize(960, 720)
         self.addWidget(self.page1)
         self.setCurrentIndex(0)
-    
-    # def PAGE_FORWARD(self, mn: str):
-    #     self.page2 = ModelWindow_2(self, mn)
-    #     self.setCurrentIndex(1)
-    
-    # def PAGE_BACK(self):
-    #     self.setCurrentIndex(0)
-
