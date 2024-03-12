@@ -1,16 +1,13 @@
 {
-    "pathFeature": "D:/php-ytp-project/core/demo/training.csv",
-    "pathTarget": "D:/php-ytp-project/core/demo/training_ans.csv",
+    "pathFeature": "D:/php-ytp-project/core/demo/house_train.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/house_train.csv",
     "modelName": "pcc",
-    "modelType": "Random_Forest",
+    "modelType": "Decision_Tree",
     "attrFeature": [
-        "F0",
-        "F1",
-        "F2",
-        "F3",
-        "F4"
+        "GarageArea",
+        "YrSold"
     ],
     "attrTarget": [
-        "A0"
+        "SalePrice"
     ]
 }

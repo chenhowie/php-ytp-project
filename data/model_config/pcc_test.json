@@ -1,0 +1,13 @@
+{
+    "pathFeature": "D:/php-ytp-project/core/demo/house_train.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/house_train.csv",
+    "modelName": "pcc_test",
+    "modelType": "Random_Forest",
+    "attrFeature": [
+        "GarageArea",
+        "YrSold"
+    ],
+    "attrTarget": [
+        "SalePrice"
+    ]
+}
