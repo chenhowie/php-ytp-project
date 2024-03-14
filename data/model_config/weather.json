@@ -1,0 +1,20 @@
+{
+    "pathFeature": "D:/php-ytp-project/core/demo/weather.csv",
+    "pathTarget": "D:/php-ytp-project/core/demo/weather.csv",
+    "modelName": "weather",
+    "modelType": "Decision_Tree",
+    "attrFeature": [
+        "idx",
+        "PP01",
+        "PS01",
+        "RH01",
+        "WD01",
+        "WD02",
+        "hour",
+        "year",
+        "dayc"
+    ],
+    "attrTarget": [
+        "TX01"
+    ]
+}
